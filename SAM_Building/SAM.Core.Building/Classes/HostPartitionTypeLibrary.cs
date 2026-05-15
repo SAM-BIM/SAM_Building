@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Text.Json.Nodes;
 using SAM.Core;
 using System;
 using System.Collections.Generic;
@@ -20,7 +20,7 @@ namespace SAM.Core.Building
 
         }
 
-        public HostPartitionTypeLibrary(JObject jObject)
+        public HostPartitionTypeLibrary(JsonObject jObject)
             : base(jObject)
         {
 
@@ -32,9 +32,9 @@ namespace SAM.Core.Building
 
         }
 
-        public override bool FromJObject(JObject jObject)
+        public override bool FromJsonObject(JsonObject jObject)
         {
-            if (!base.FromJObject(jObject))
+            if (!base.FromJsonObject(jObject))
             {
                 return false;
             }
@@ -42,9 +42,9 @@ namespace SAM.Core.Building
             return true;
         }
 
-        public override JObject ToJObject()
+        public override JsonObject ToJsonObject()
         {
-            JObject jObject = base.ToJObject();
+            JsonObject jObject = base.ToJsonObject();
             if (jObject == null)
             {
                 return jObject;

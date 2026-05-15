@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Text.Json.Nodes;
 using SAM.Core;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 
 namespace SAM.Core.Building
 {
@@ -155,7 +156,7 @@ namespace SAM.Core.Building
             }
         }
 
-        public Profile(JObject jObject)
+        public Profile(JsonObject jObject)
             : base(jObject)
         {
         }
@@ -798,53 +799,59 @@ namespace SAM.Core.Building
             return true;
         }
 
-        public override bool FromJObject(JObject jObject)
+        public override bool FromJsonObject(JsonObject jObject)
         {
-            if (!base.FromJObject(jObject))
+            if (!base.FromJsonObject(jObject))
                 return false;
 
             if (jObject.ContainsKey("Category"))
-                category = jObject.Value<string>("Category");
+                category = jObject["Category"]?.GetValue<string>() ?? null;
 
             if (jObject.ContainsKey("Values"))
             {
-                JArray jArray = jObject.Value<JArray>("Values");
+                JsonArray jArray = jObject["Values"] as JsonArray;
                 if (jArray != null)
                 {
                     values = new SortedList<int, Tuple<Range<int>, AnyOf<double, Profile>>>();
 
-                    foreach (JToken jToken in jArray)
+                    foreach (JsonNode jsonNode in jArray)
                     {
-                        if (jToken.Type == JTokenType.Float)
+                        if (jsonNode == null)
                         {
-                            values[values.Count == 0 ? 0 : values.Keys.Max() + 1] = new Tuple<Range<int>, AnyOf<double, Profile>>(null, (double)jToken);
+                            continue;
                         }
-                        else if (jToken.Type == JTokenType.Array)
-                        {
-                            JArray jArray_Temp = (JArray)jToken;
 
-                            JToken jToken_Temp;
+                        if (jsonNode.GetValueKind() == JsonValueKind.Number)
+                        {
+                            values[values.Count == 0 ? 0 : values.Keys.Max() + 1] = new Tuple<Range<int>, AnyOf<double, Profile>>(null, jsonNode.GetValue<double>());
+                        }
+                        else if (jsonNode is JsonArray jArray_Temp)
+                        {
+                            JsonNode jsonNode_Temp;
+                            int key = jArray_Temp[0]?.GetValue<int>() ?? default(int);
+
 
                             switch (jArray_Temp.Count)
                             {
                                 case 1:
-                                    values[(int)jArray_Temp[0]] = null;
+                                    values[key] = null;
                                     break;
                                 case 2:
-                                    jToken_Temp = jArray_Temp[1];
-                                    if (jToken_Temp.Type == JTokenType.Float)
-                                        values[(int)jArray_Temp[0]] = new Tuple<Range<int>, AnyOf<double, Profile>>(null, (double)jToken_Temp);
-                                    else if (jToken_Temp.Type == JTokenType.Integer)
-                                        values[(int)jArray_Temp[0]] = new Tuple<Range<int>, AnyOf<double, Profile>>(new Range<int>((int)jArray_Temp[0], (int)jArray_Temp[1]), null);
-                                    else if (jToken_Temp.Type == JTokenType.Object)
-                                        values[(int)jArray_Temp[0]] = new Tuple<Range<int>, AnyOf<double, Profile>>(null, new Profile((JObject)jArray_Temp[1]));
+                                    jsonNode_Temp = jArray_Temp[1];
+                                    if (jsonNode_Temp is JsonValue jsonValue && jsonValue.TryGetValue<int>(out int max))
+                                        values[key] = new Tuple<Range<int>, AnyOf<double, Profile>>(new Range<int>(key, max), null);
+                                    else if (jsonNode_Temp?.GetValueKind() == JsonValueKind.Number)
+                                        values[key] = new Tuple<Range<int>, AnyOf<double, Profile>>(null, jsonNode_Temp.GetValue<double>());
+                                    else if (jsonNode_Temp is JsonObject jObject_Temp)
+                                        values[key] = new Tuple<Range<int>, AnyOf<double, Profile>>(null, new Profile(jObject_Temp));
                                     break;
                                 case 3:
-                                    jToken_Temp = jArray_Temp[2];
-                                    if (jToken_Temp.Type == JTokenType.Float)
-                                        values[(int)jArray_Temp[0]] = new Tuple<Range<int>, AnyOf<double, Profile>>(new Range<int>((int)jArray_Temp[0], (int)jArray_Temp[1]), (double)jToken_Temp);
-                                    else if (jToken_Temp.Type == JTokenType.Object)
-                                        values[(int)jArray_Temp[0]] = new Tuple<Range<int>, AnyOf<double, Profile>>(new Range<int>((int)jArray_Temp[0], (int)jArray_Temp[1]), new Profile((JObject)jToken_Temp));
+                                    jsonNode_Temp = jArray_Temp[2];
+                                    int rangeMax = jArray_Temp[1]?.GetValue<int>() ?? default(int);
+                                    if (jsonNode_Temp?.GetValueKind() == JsonValueKind.Number)
+                                        values[key] = new Tuple<Range<int>, AnyOf<double, Profile>>(new Range<int>(key, rangeMax), jsonNode_Temp.GetValue<double>());
+                                    else if (jsonNode_Temp is JsonObject jObject_Temp)
+                                        values[key] = new Tuple<Range<int>, AnyOf<double, Profile>>(new Range<int>(key, rangeMax), new Profile(jObject_Temp));
                                     break;
                             }
                         }
@@ -855,9 +862,9 @@ namespace SAM.Core.Building
             return true;
         }
 
-        public override JObject ToJObject()
+        public override JsonObject ToJsonObject()
         {
-            JObject jObject = base.ToJObject();
+            JsonObject jObject = base.ToJsonObject();
             if (jObject == null)
                 return jObject;
 
@@ -866,10 +873,10 @@ namespace SAM.Core.Building
 
             if (values != null)
             {
-                JArray jArray = new JArray();
+                JsonArray jArray = new JsonArray();
                 foreach (KeyValuePair<int, Tuple<Range<int>, AnyOf<double, Profile>>> keyValuePair in values)
                 {
-                    JArray jArray_Temp = new JArray();
+                    JsonArray jArray_Temp = new JsonArray();
                     jArray_Temp.Add(keyValuePair.Key);
 
                     Tuple<Range<int>, AnyOf<double, Profile>> tuple = keyValuePair.Value;
@@ -884,7 +891,7 @@ namespace SAM.Core.Building
                             if (value.Value is double)
                                 jArray_Temp.Add(value.Value);
                             else if (value.Value != null)
-                                jArray_Temp.Add((value.Value as Profile).ToJObject());
+                                jArray_Temp.Add((value.Value as Profile).ToJsonObject());
                         }
                     }
 

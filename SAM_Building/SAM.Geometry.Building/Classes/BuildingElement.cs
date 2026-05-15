@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-
+﻿using System.Text.Json.Nodes;
 using SAM.Core;
 using SAM.Core.Building;
 using SAM.Geometry.Object.Spatial;
@@ -17,7 +16,7 @@ namespace SAM.Geometry.Building
             face3D = buildingElement?.Face3D?.Clone() as Face3D;
         }
 
-        public BuildingElement(JObject jObject)
+        public BuildingElement(JsonObject jObject)
             : base(jObject)
         {
 
@@ -75,24 +74,24 @@ namespace SAM.Geometry.Building
             face3D = face3D?.GetMoved(vector3D) as Face3D;
         }
 
-        public override bool FromJObject(JObject jObject)
+        public override bool FromJsonObject(JsonObject jObject)
         {
-            if (!base.FromJObject(jObject))
+            if (!base.FromJsonObject(jObject))
             {
                 return false;
             }
 
             if (jObject.ContainsKey("Face3D"))
             {
-                face3D = Geometry.Create.ISAMGeometry<Face3D>(jObject.Value<JObject>("Face3D"));
+                face3D = Geometry.Create.ISAMGeometry<Face3D>(jObject["Face3D"] as JsonObject);
             }
 
             return true;
         }
 
-        public override JObject ToJObject()
+        public override JsonObject ToJsonObject()
         {
-            JObject jObject = base.ToJObject();
+            JsonObject jObject = base.ToJsonObject();
 
             if (jObject == null)
             {
@@ -101,7 +100,7 @@ namespace SAM.Geometry.Building
 
             if (face3D != null)
             {
-                jObject.Add("Face3D", face3D.ToJObject());
+                jObject.Add("Face3D", face3D.ToJsonObject());
             }
 
             return jObject;

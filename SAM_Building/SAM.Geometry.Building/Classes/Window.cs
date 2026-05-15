@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Text.Json.Nodes;
 using SAM.Core.Building;
 using SAM.Geometry.Spatial;
 
@@ -12,7 +12,7 @@ namespace SAM.Geometry.Building
 
         }
 
-        public Window(JObject jObject)
+        public Window(JsonObject jObject)
             : base(jObject)
         {
 
@@ -36,9 +36,9 @@ namespace SAM.Geometry.Building
 
         }
 
-        public override bool FromJObject(JObject jObject)
+        public override bool FromJsonObject(JsonObject jObject)
         {
-            if (!base.FromJObject(jObject))
+            if (!base.FromJsonObject(jObject))
             {
                 return false;
             }
@@ -46,9 +46,9 @@ namespace SAM.Geometry.Building
             return true;
         }
 
-        public override JObject ToJObject()
+        public override JsonObject ToJsonObject()
         {
-            JObject jObject = base.ToJObject();
+            JsonObject jObject = base.ToJsonObject();
 
             if (jObject == null)
             {

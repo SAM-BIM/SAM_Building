@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-
+﻿using System.Text.Json.Nodes;
 using System.Collections.Generic;
 using SAM.Architectural;
 using System.Linq;
@@ -23,7 +22,7 @@ namespace SAM.Core.Building
 
         }
 
-        public OpeningType(JObject jObject)
+        public OpeningType(JsonObject jObject)
             : base(jObject)
         {
 
@@ -69,17 +68,17 @@ namespace SAM.Core.Building
 
         }
 
-        public override bool FromJObject(JObject jObject)
+        public override bool FromJsonObject(JsonObject jObject)
         {
-            if (!base.FromJObject(jObject))
+            if (!base.FromJsonObject(jObject))
                 return false;
 
             return true;
         }
 
-        public override JObject ToJObject()
+        public override JsonObject ToJsonObject()
         {
-            JObject jObject = base.ToJObject();
+            JsonObject jObject = base.ToJsonObject();
 
             if (jObject == null)
                 return jObject;

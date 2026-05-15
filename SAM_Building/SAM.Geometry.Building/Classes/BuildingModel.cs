@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Text.Json.Nodes;
 using SAM.Core;
 using SAM.Geometry.Spatial;
 using System;
@@ -22,7 +22,7 @@ namespace SAM.Geometry.Building
         private MaterialLibrary materialLibrary;
         private ProfileLibrary profileLibrary;
 
-        public BuildingModel(JObject jObject)
+        public BuildingModel(JsonObject jObject)
             : base(jObject)
         {
 
@@ -2368,38 +2368,38 @@ namespace SAM.Geometry.Building
             return new BoundingBox3D(boundingBox3Ds);
         }
 
-        public override bool FromJObject(JObject jObject)
+        public override bool FromJsonObject(JsonObject jObject)
         {
-            if (!base.FromJObject(jObject))
+            if (!base.FromJsonObject(jObject))
                 return false;
 
             if (jObject.ContainsKey("Description"))
-                description = jObject.Value<string>("Description");
+                description = jObject["Description"]?.GetValue<string>() ?? null;
 
             if (jObject.ContainsKey("Location"))
-                location = new Location(jObject.Value<JObject>("Location"));
+                location = new Location(jObject["Location"] as JsonObject);
 
             if (jObject.ContainsKey("Address"))
-                address = new Address(jObject.Value<JObject>("Address"));
+                address = new Address(jObject["Address"] as JsonObject);
 
             if (jObject.ContainsKey("RelationCluster"))
-                relationCluster = new RelationCluster(jObject.Value<JObject>("RelationCluster"));
+                relationCluster = new RelationCluster(jObject["RelationCluster"] as JsonObject);
 
             if (jObject.ContainsKey("Terrain"))
-                terrain = Core.Create.IJSAMObject<Terrain>(jObject.Value<JObject>("Terrain"));
+                terrain = Core.Create.IJSAMObject<Terrain>(jObject["Terrain"] as JsonObject);
 
             if (jObject.ContainsKey("MaterialLibrary"))
-                materialLibrary = Core.Create.IJSAMObject<MaterialLibrary>(jObject.Value<JObject>("MaterialLibrary"));
+                materialLibrary = Core.Create.IJSAMObject<MaterialLibrary>(jObject["MaterialLibrary"] as JsonObject);
 
             if (jObject.ContainsKey("ProfileLibrary"))
-                profileLibrary = Core.Create.IJSAMObject<ProfileLibrary>(jObject.Value<JObject>("ProfileLibrary"));
+                profileLibrary = Core.Create.IJSAMObject<ProfileLibrary>(jObject["ProfileLibrary"] as JsonObject);
 
             return true;
         }
 
-        public override JObject ToJObject()
+        public override JsonObject ToJsonObject()
         {
-            JObject jObject = base.ToJObject();
+            JsonObject jObject = base.ToJsonObject();
             if (jObject == null)
                 return jObject;
 
@@ -2407,22 +2407,22 @@ namespace SAM.Geometry.Building
                 jObject.Add("Description", description);
 
             if (location != null)
-                jObject.Add("Location", location.ToJObject());
+                jObject.Add("Location", location.ToJsonObject());
 
             if (address != null)
-                jObject.Add("Address", address.ToJObject());
+                jObject.Add("Address", address.ToJsonObject());
 
             if (relationCluster != null)
-                jObject.Add("RelationCluster", relationCluster.ToJObject());
+                jObject.Add("RelationCluster", relationCluster.ToJsonObject());
 
             if (terrain != null)
-                jObject.Add("Terrain", terrain.ToJObject());
+                jObject.Add("Terrain", terrain.ToJsonObject());
 
             if (materialLibrary != null)
-                jObject.Add("MaterialLibrary", materialLibrary.ToJObject());
+                jObject.Add("MaterialLibrary", materialLibrary.ToJsonObject());
 
             if (profileLibrary != null)
-                jObject.Add("ProfileLibrary", profileLibrary.ToJObject());
+                jObject.Add("ProfileLibrary", profileLibrary.ToJsonObject());
 
             return jObject;
         }

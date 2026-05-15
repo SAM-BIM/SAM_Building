@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-
+﻿using System.Text.Json.Nodes;
 namespace SAM.Core.Building
 {
     public class VentilationSystem : MechanicalSystem
@@ -22,22 +21,22 @@ namespace SAM.Core.Building
 
         }
 
-        public VentilationSystem(JObject jObject)
+        public VentilationSystem(JsonObject jObject)
             : base(jObject)
         {
         }
 
-        public override bool FromJObject(JObject jObject)
+        public override bool FromJsonObject(JsonObject jObject)
         {
-            if (!base.FromJObject(jObject))
+            if (!base.FromJsonObject(jObject))
                 return false;
 
             return true;
         }
 
-        public override JObject ToJObject()
+        public override JsonObject ToJsonObject()
         {
-            JObject jObject = base.ToJObject();
+            JsonObject jObject = base.ToJsonObject();
             if (jObject == null)
                 return null;
 

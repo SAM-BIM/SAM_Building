@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Text.Json.Nodes;
 using SAM.Architectural;
 
 namespace SAM.Core.Building
@@ -16,15 +16,15 @@ namespace SAM.Core.Building
 
         }
 
-        public ConstructionLayer(JObject jObject)
+        public ConstructionLayer(JsonObject jObject)
             : base(jObject)
         {
 
         }
 
-        public override bool FromJObject(JObject jObject)
+        public override bool FromJsonObject(JsonObject jObject)
         {
-            if (!base.FromJObject(jObject))
+            if (!base.FromJsonObject(jObject))
             {
                 return false;
             }
@@ -32,9 +32,9 @@ namespace SAM.Core.Building
             return true;
         }
 
-        public override JObject ToJObject()
+        public override JsonObject ToJsonObject()
         {
-            JObject jObject = base.ToJObject();
+            JsonObject jObject = base.ToJsonObject();
             if (jObject == null)
             {
                 return jObject;

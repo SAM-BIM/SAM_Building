@@ -32,7 +32,7 @@ namespace SAM.Geometry.Building.Rhino
             GeometryBase geometryBase = rhinoDoc.Objects.FindGeometry(guid);
             if (geometryBase != null)
             {
-                string @string = partition.ToJObject()?.ToString();
+                string @string = partition.ToJsonObject()?.ToString();
                 if (!string.IsNullOrWhiteSpace(@string))
                     geometryBase.SetUserString("SAM", @string);
             }
@@ -56,7 +56,7 @@ namespace SAM.Geometry.Building.Rhino
             GeometryBase geometryBase = rhinoDoc.Objects.FindGeometry(guid);
             if (geometryBase != null)
             {
-                string @string = opening.ToJObject()?.ToString();
+                string @string = opening.ToJsonObject()?.ToString();
                 if (!string.IsNullOrWhiteSpace(@string))
                     geometryBase.SetUserString("SAM", @string);
             }

@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2020–2026 Michal Dengusiak & Jakub Ziolkowski and contributors
+using System.Text.Json.Nodes;
 using SAM.Core;
 using SAM.Geometry.Spatial;
 using SAM.Geometry.Planar;
@@ -18,7 +20,7 @@ namespace SAM.Geometry.Building
             openings = hostPartition?.openings?.ConvertAll(x => x.Clone());
         }
 
-        public HostPartition(JObject jObject)
+        public HostPartition(JsonObject jObject)
             : base(jObject)
         {
 
@@ -199,9 +201,9 @@ namespace SAM.Geometry.Building
             return openings.Find(x => x.Guid == guid)?.Clone();
         }
 
-        public override bool FromJObject(JObject jObject)
+        public override bool FromJsonObject(JsonObject jObject)
         {
-            if (!base.FromJObject(jObject))
+            if (!base.FromJsonObject(jObject))
             {
                 return false;
             }
@@ -210,9 +212,9 @@ namespace SAM.Geometry.Building
             return true;
         }
 
-        public override JObject ToJObject()
+        public override JsonObject ToJsonObject()
         {
-            JObject jObject = base.ToJObject();
+            JsonObject jObject = base.ToJsonObject();
 
             if (jObject == null)
             {

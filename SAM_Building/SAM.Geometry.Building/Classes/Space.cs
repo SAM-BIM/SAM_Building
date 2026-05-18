@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2020–2026 Michal Dengusiak & Jakub Ziolkowski and contributors
+using System.Text.Json.Nodes;
 using SAM.Core;
 using SAM.Core.Building;
 using SAM.Geometry.Object.Spatial;
@@ -69,7 +71,7 @@ namespace SAM.Geometry.Building
             }
         }
 
-        public Space(JObject jObject)
+        public Space(JsonObject jObject)
             : base(jObject)
         {
         }
@@ -109,31 +111,31 @@ namespace SAM.Geometry.Building
             }
         }
 
-        public override bool FromJObject(JObject jObject)
+        public override bool FromJsonObject(JsonObject jObject)
         {
-            if (!base.FromJObject(jObject))
+            if (!base.FromJsonObject(jObject))
                 return false;
 
             if (jObject.ContainsKey("Location"))
-                location = new Point3D(jObject.Value<JObject>("Location"));
+                location = new Point3D(jObject["Location"] as JsonObject);
 
             if (jObject.ContainsKey("InternalCondition"))
-                internalCondition = new InternalCondition(jObject.Value<JObject>("InternalCondition"));
+                internalCondition = new InternalCondition(jObject["InternalCondition"] as JsonObject);
 
             return true;
         }
 
-        public override JObject ToJObject()
+        public override JsonObject ToJsonObject()
         {
-            JObject jObject = base.ToJObject();
+            JsonObject jObject = base.ToJsonObject();
             if (jObject == null)
                 return jObject;
 
             if (location != null)
-                jObject.Add("Location", location.ToJObject());
+                jObject.Add("Location", location.ToJsonObject());
 
             if (internalCondition != null)
-                jObject.Add("InternalCondition", internalCondition.ToJObject());
+                jObject.Add("InternalCondition", internalCondition.ToJsonObject());
 
             return jObject;
         }

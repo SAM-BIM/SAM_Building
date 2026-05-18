@@ -1,4 +1,6 @@
-﻿using SAM.Geometry.Building;
+﻿// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2020–2026 Michal Dengusiak & Jakub Ziolkowski and contributors
+using SAM.Geometry.Building;
 using SAM.Geometry.Spatial;
 using System.Collections.Generic;
 
@@ -43,7 +45,7 @@ namespace SAM.Geometry.Building
                 closedPlanar3Ds.Add(face3D);
             }
 
-            List<Polygon3D> polygon3Ds = Geometry.Spatial.Create.Polygon3Ds(closedPlanar3Ds, plane, checkIntersection, tolerance_Distance);
+            List<Polygon3D> polygon3Ds = Geometry.Spatial.Create.Polygon3Ds(closedPlanar3Ds, plane, checkIntersection, true, tolerance_Distance);
             if (polygon3Ds == null || polygon3Ds.Count == 0)
             {
                 return null;

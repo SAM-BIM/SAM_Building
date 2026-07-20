@@ -1,4 +1,6 @@
-﻿using Rhino;
+﻿// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2020–2026 Michal Dengusiak & Jakub Ziolkowski and contributors
+using Rhino;
 using Rhino.DocObjects;
 using Rhino.Geometry;
 using System;
@@ -32,7 +34,7 @@ namespace SAM.Geometry.Building.Rhino
             GeometryBase geometryBase = rhinoDoc.Objects.FindGeometry(guid);
             if (geometryBase != null)
             {
-                string @string = partition.ToJObject()?.ToString();
+                string @string = partition.ToJsonObject()?.ToString();
                 if (!string.IsNullOrWhiteSpace(@string))
                     geometryBase.SetUserString("SAM", @string);
             }
@@ -56,7 +58,7 @@ namespace SAM.Geometry.Building.Rhino
             GeometryBase geometryBase = rhinoDoc.Objects.FindGeometry(guid);
             if (geometryBase != null)
             {
-                string @string = opening.ToJObject()?.ToString();
+                string @string = opening.ToJsonObject()?.ToString();
                 if (!string.IsNullOrWhiteSpace(@string))
                     geometryBase.SetUserString("SAM", @string);
             }

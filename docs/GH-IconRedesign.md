@@ -45,13 +45,13 @@ Built and validated; ready for review. **Not merged.**
 | `tools/check_source.py` vs `origin/sow/2026-Q3` | vendored files OK; icon-token swaps: 2, non-icon changes: 0; base 2, now 2 -> UNCHANGED |
 | Build (`SAM_Building.sln`, dotnet and VS MSBuild) | **BLOCKED (pre-existing)**: `SAM.Geometry.Building.Rhino` (untouched; packages.config, RhinoCommon 6.32) fails with CS1705 against current SAM Rhino assemblies built on RhinoCommon 8.21, so the dependent GH project cannot be built here. Identical on `sow/2026-Q3`; not caused by this PR. |
 | `tools/check_assemblies.py` | not run — no assembly could be built (see build row) |
-| `tests/GhIconTest` (real Rhino 8 / Grasshopper, Rhino.Testing) | **not verifiable**: both param GUIDs are also declared by SAM core (`GooArchitecturalModel` etc. share `f11a6c34…`), so Grasshopper returns SAM's object; a pass would be meaningless and is not claimed |
+| `tests/GhIconTest` (real Rhino 8 / Grasshopper, Rhino.Testing) | **not verifiable**: both param GUIDs are also declared by SAM core (`f11a6c34…` = SAM `GooArchitecturalModelParam`, `0091b0f4…` = SAM `GooPartitionParam`), so Grasshopper returns SAM's object; a pass would be meaningless and is not claimed |
 | Repository test projects | none in this repository |
 | Visual review (`review/contact_sheet.png`, 24 px on normal / warning / dark bodies) | both icons legible; identical to SAM's `model` / `panel` params |
 
 ## Unresolved issues / risks
 - Build blocked by the pre-existing RhinoCommon 6 → 8 mismatch in `SAM.Geometry.Building.Rhino` (legacy net472 / packages.config). Icons are verified at source level only (re-parse + icon-token-only diff); the resx wiring is the same mechanism used and build-verified in the other 20 repositories.
-- Pre-existing: param GUID `f11a6c34-3376-4a5d-8c6c-1d5331a7c96a` is also declared by SAM core (`SAM/Grasshopper/SAM.Analytical.Grasshopper/Classes/New/GooArchitecturalModel.cs`). If both plugins load, Grasshopper reports a GUID conflict. Not changed here (GUIDs must not change).
+- Pre-existing: both param GUIDs are also declared by SAM core — `f11a6c34-3376-4a5d-8c6c-1d5331a7c96a` (`SAM/Grasshopper/SAM.Analytical.Grasshopper/Classes/New/GooArchitecturalModel.cs`) and `0091b0f4-8009-4388-8914-a3fe680ef12d` (`…/Classes/New/GooPartition.cs`). If both plugins load, Grasshopper reports a GUID conflict. Not changed here (GUIDs must not change).
 - Built against sibling repos as checked out locally (SAM on `feature/sam-gh-icon-redesign` = SAM#166); icon changes are API-neutral.
 
 ## Recommended next step

@@ -205,7 +205,7 @@ namespace SAM.Geometry.Grasshopper.Building
 
         public override Guid ComponentGuid => new Guid("0091B0F4-8009-4388-8914-A3FE680EF12D");
 
-        protected override System.Drawing.Bitmap Icon => Resources.SAM_Small;
+        protected override System.Drawing.Bitmap Icon => Resources.SAM_GH_Panel;
 
         public override GH_Exposure Exposure => GH_Exposure.hidden;
 

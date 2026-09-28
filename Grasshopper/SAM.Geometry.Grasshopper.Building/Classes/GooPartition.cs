@@ -1,4 +1,7 @@
-﻿using GH_IO.Serialization;
+﻿// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright (c) 2020-2026 Michal Dengusiak & Jakub Ziolkowski and contributors
+
+using GH_IO.Serialization;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
 using Rhino;
@@ -205,7 +208,7 @@ namespace SAM.Geometry.Grasshopper.Building
 
         public override Guid ComponentGuid => new Guid("0091B0F4-8009-4388-8914-A3FE680EF12D");
 
-        protected override System.Drawing.Bitmap Icon => Resources.SAM_Small;
+        protected override System.Drawing.Bitmap Icon => Resources.SAM_GH_Panel;
 
         public override GH_Exposure Exposure => GH_Exposure.hidden;
 

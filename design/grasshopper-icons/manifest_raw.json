@@ -1,0 +1,36 @@
+[
+ {
+  "project": "SAM.Geometry.Grasshopper.Building",
+  "project_dir": "Grasshopper/SAM.Geometry.Grasshopper.Building",
+  "class": "GooBuildingModelParam",
+  "base_type": "GH_PersistentParam<GooBuildingModel>, IGH_PreviewObject, IGH_BakeAwareObject",
+  "guid": "f11a6c34-3376-4a5d-8c6c-1d5331a7c96a",
+  "name": "{typeof(BuildingModel).Name}",
+  "nickname": "{typeof(BuildingModel).Name}",
+  "category": "Params",
+  "subcategory": "SAM",
+  "icon_expr": "SAM_Small",
+  "icon_holder": "Resources",
+  "icon_via_bytes": false,
+  "exposure": "GH_Exposure.hidden",
+  "obsolete": true,
+  "source": "Grasshopper/SAM.Geometry.Grasshopper.Building/Classes/GooBuildingModel.cs"
+ },
+ {
+  "project": "SAM.Geometry.Grasshopper.Building",
+  "project_dir": "Grasshopper/SAM.Geometry.Grasshopper.Building",
+  "class": "GooPartitionParam",
+  "base_type": "GH_PersistentParam<GooPartition>, IGH_PreviewObject, IGH_BakeAwareObject",
+  "guid": "0091b0f4-8009-4388-8914-a3fe680ef12d",
+  "name": "{typeof(IPartition).Name}",
+  "nickname": "{typeof(IPartition).Name}",
+  "category": "Params",
+  "subcategory": "SAM",
+  "icon_expr": "SAM_Small",
+  "icon_holder": "Resources",
+  "icon_via_bytes": false,
+  "exposure": "GH_Exposure.hidden",
+  "obsolete": true,
+  "source": "Grasshopper/SAM.Geometry.Grasshopper.Building/Classes/GooPartition.cs"
+ }
+]

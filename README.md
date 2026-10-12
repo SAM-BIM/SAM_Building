@@ -1,3 +1,5 @@
+> **Archived (2026-10-12).** SAM_Building was an experimental space for building-level abstractions. It is inactive, is not part of any SAM release, is not referenced by any current SAM repository and does not build against the current SAM. It is kept read-only, with all its history and branches (including the unmerged `feature/org-icon-migration` work), for reference. No replacement is claimed.
+
 [![Build (Windows)](https://github.com/SAM-BIM/SAM_Building/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/SAM-BIM/SAM_Building/actions/workflows/build.yml)
 
 # SAM_Building
